@@ -98,7 +98,7 @@ WSGI_APPLICATION = 'recharges.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / '../db/db.sqlite3',
+        'NAME': os.environ.get('DB_PATH', '/db/db.sqlite3'),  # Usa variable de entorno
     }
 }
 

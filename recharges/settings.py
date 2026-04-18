@@ -138,5 +138,6 @@ STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+# Telegram notification
 TELEGRAM_BOT_KEY = os.getenv('TELEGRAM_BOT_KEY', None)
 TELEGRAM_GROUP_ID = os.getenv('TELEGRAM_GROUP_ID', None)

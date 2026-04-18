@@ -12,4 +12,4 @@ COPY . /app/
 
 EXPOSE 8000
 
-CMD ["gunicorn", "recharges.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "3"]
+CMD ["sh", "-c", "python manage.py makemigrations && python manage.py migrate && python manage.py collectstatic --noinput && gunicorn recharges.wsgi:application --bind 0.0.0.0:8000 --workers 3"]

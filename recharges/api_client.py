@@ -42,9 +42,8 @@ def send_recharge(payload: dict, user) -> dict:
     response.raise_for_status()
     return response.json()
 
+
 def send_telegram_recharge_notification(username: str, recipient: str) -> None:
-    print(settings.TELEGRAM_BOT_KEY)
-    print(settings.TELEGRAM_GROUP_ID)
     if not settings.TELEGRAM_BOT_KEY or not settings.TELEGRAM_GROUP_ID:
         return
 

@@ -5,10 +5,13 @@ ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
+RUN addgroup --system app && adduser --system --group app
+
 COPY requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . /app/
+USER app
+COPY . .
 
 EXPOSE 8000
 

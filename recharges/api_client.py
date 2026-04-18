@@ -41,3 +41,21 @@ def send_recharge(payload: dict, user) -> dict:
                              )
     response.raise_for_status()
     return response.json()
+
+def send_telegram_recharge_notification(username: str, recipient: str) -> None:
+    print(settings.TELEGRAM_BOT_KEY)
+    print(settings.TELEGRAM_GROUP_ID)
+    if not settings.TELEGRAM_BOT_KEY or not settings.TELEGRAM_GROUP_ID:
+        return
+
+    message = (
+        "Recharge sent\n"
+        f"User: {username}\n"
+        f"Recipient: {recipient}"
+    )
+
+    requests.post(
+        f"https://api.telegram.org/bot{settings.TELEGRAM_BOT_KEY}/sendMessage",
+        json={"chat_id": settings.TELEGRAM_GROUP_ID, "text": message},
+        timeout=10,
+    ).raise_for_status()

@@ -5,9 +5,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
-from .api_client import fetch_recharge_prices, fetch_send_recharges, send_recharge
+from .api_client import fetch_recharge_prices, fetch_send_recharges, send_recharge, send_telegram_recharge_notification
 from .serializers import RechargeSerializer, SendRechargeSerializer, UserDataSerializer
-
 
 class LoginView(TokenObtainPairView):
     permission_classes = [AllowAny]
@@ -57,21 +56,29 @@ class SendRechargeView(APIView):
     def post(self, request):
         serializer = SendRechargeSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        recipient = serializer.validated_data.get("send_to")
 
         try:
             data = send_recharge(
                 {
                     "recharge": serializer.validated_data.get("product"),
-                    "sendTo": [f"53{serializer.validated_data.get('send_to')}"],
+                    "sendTo": [f"53{recipient}"],
                 },
                 request.user,
             )
         except RequestException as exc:
-            print(exc)
             return Response(
                 {"detail": "Failed to send recharge", "error": str(exc)},
                 status=status.HTTP_502_BAD_GATEWAY,
             )
+
+        try:
+            print('sending telegram notify')
+            send_telegram_recharge_notification(request.user.username, recipient)
+        except RequestException as e:
+            print(e)
+            pass
+
         return Response(data, status=status.HTTP_201_CREATED)
 
 

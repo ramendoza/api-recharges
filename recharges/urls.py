@@ -17,6 +17,21 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from .views import (
+    LoginView,
+    ProfileView,
+    RechargePricesListView,
+    RefreshTokenView,
+    SendRechargeView,
+    SendRechargesListView,
+)
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/auth/token/', LoginView.as_view(), name='token_obtain_pair'),
+    path('api/auth/token/refresh/', RefreshTokenView.as_view(), name='token_refresh'),
+    path('api/recharges/send/', SendRechargesListView.as_view(), name='send_recharges_list'),
+    path('api/recharges/prices/', RechargePricesListView.as_view(), name='recharge_prices_list'),
+    path('api/recharges/', SendRechargeView.as_view(), name='send_recharge'),
+    path('api/auth/profile/', ProfileView.as_view(), name='profile'),
 ]

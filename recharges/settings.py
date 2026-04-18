@@ -31,7 +31,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-#pstl@oqlx#%8k0dcw$8-onfo5
 DEBUG = os.getenv('DEBUG', 'True').lower() == 'true'
 
 ALLOWED_HOSTS = [host.strip() for host in os.getenv('ALLOWED_HOSTS', '').split(',') if host.strip()]
-CSRF_TRUSTED_ORIGINS  = [host.strip() for host in os.getenv('TRUSTED_ORIGINS ', '').split(',') if host.strip()]
+CSRF_TRUSTED_ORIGINS = [origin.strip() for origin in os.getenv('TRUSTED_ORIGINS', '').split(',') if origin.strip()]
 
 BASE_URL = os.getenv('BASE_URL', 'http://localhost:8000')
 
